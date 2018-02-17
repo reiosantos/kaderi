@@ -78,8 +78,6 @@ export class AdminSalesComponent implements OnInit, OnChanges {
 				}
 			}
 		}
-		console.log(pr_today);
-		console.log(pr_ever);
 		this.profits_today = pr_today + ' Ugx';
 		this.profits_ever = pr_ever + ' Ugx';
 		this.losses_today = (ls_today * -1) + ' Ugx';
