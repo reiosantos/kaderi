@@ -1,0 +1,174 @@
+<div class="row">
+
+  <div class="col-md-8">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- START INLINE FORM SAMPLE -->
+        <div class="block">
+          <h4>Item Sales Form</h4><app-alert *ngIf="!savingComment"></app-alert>
+          <form class="form-inline" role="form" [formGroup]="saleForm" (submit)="formSubmit()" novalidate>
+            <div class="form-group">
+              <div class="invalid"
+                   *ngIf="saleSubmitted && (!saleForm.controls.product.valid || productSaleItem == null)">
+                Select a product!!</div>
+              <label>product: </label>
+              <select title="Products" [class.invalid]="!saleForm.controls.product.valid || productSaleItem == null"
+					  (change)="productSaleItem=saleForm.controls.product.value" [ngModel]="productSaleItem" formControlName="product" class="form-control">
+                <option value="0" selected="selected" disabled >---------------------</option>
+                <option *ngFor="let product of tempProducts" [ngValue]="product" >
+                  {{ product.item_name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="sr-only">Price @: </label>
+                <div class="invalid" *ngIf="saleSubmitted && !saleForm.controls.price.valid">Price is invalid!!</div>
+                <input class="form-control" type="number" formControlName="price" min="50"
+                       [class.invalid]="!saleForm.controls.price.valid" [ngModel]="salePrice" placeholder="price"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="sr-only">Quantity: </label>
+                <div class="invalid" *ngIf="saleSubmitted && !saleForm.controls.quantity.valid">Quantity is required</div>
+                <input class="form-control" type="number" formControlName="quantity" min="1"
+                       [class.invalid]="!saleForm.controls.quantity.valid" [ngModel]="saleQuantity" placeholder="quantity"/>
+              </div>
+            </div>
+            <button type="submit" [disabled]="saleLoading" class="btn btn-danger">Save</button>
+          </form>
+          <p *ngIf="saleLoading" style="color: green">
+            <img src="assets/lib/theme/img/loaders/default.gif" /> Saving item changes... Please wait..
+          </p>
+        </div>
+        <!-- END INLINE FORM SAMPLE -->
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- START DEFAULT DATATABLE -->
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sales</h3>
+            <!--
+            <ul class="panel-controls">
+              <li><a href="javascript:" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+              <li><a href="javascript:" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            </ul>
+            -->
+          </div>
+          <div class="panel-body">
+            <table datatable class="table table-striped table-border table-hover">
+              <thead>
+              <tr>
+                <th>Item Name</th>
+                <th>Date</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <!--<th>Action</th>-->
+              </tr>
+              </thead>
+              <tbody *ngFor="let key of salesKeys">
+              <tr><td colspan="6" style="color: blue;" > {{ key|date:'EEEE, dd MMMM yyyy' }}</td></tr>
+
+              <tr *ngFor="let sale of sales[key]">
+                <td>{{ sale.item_name }}</td>
+                <td>{{ sale.sale_date }}</td>
+                <td>{{ sale.sale_price }}</td>
+                <td>{{ sale.sale_quantity }}</td>
+                <td>{{ sale.total_price }}</td>
+                <!--
+                <td>
+                  <!-- <button *ngIf="key == today" (click)="editSale(sale)" class="btn btn-sm btn-success pull-left"><i class="fa fa-edit"></i></button>
+                  <button *ngIf="key == today" [disabled]="saleLoading" (click)="deleteSale(sale)" class="btn btn-rounded btn-sm btn-danger center-block"><i class="fa fa-trash-o"></i></button>
+                </td>
+                -->
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- END DEFAULT DATATABLE -->
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <div class="col-md-4">
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <!-- START INLINE FORM SAMPLE -->
+        <div class="block">
+          <h4>Complaints</h4>
+          <form class="form-inline" role="form" [formGroup]="commentForm" (submit)="saveComment()" novalidate>
+            <div class="form-group">
+              <div class="input-group">
+                <label class="sr-only">Comment: </label>
+                <div class="invalid" *ngIf="!commentForm.controls.comment.valid && commentSubmitted">Comment is empty</div>
+                <input class="form-control" formControlName="comment"
+                       [class.invalid]="!commentForm.controls.comment.valid" placeholder="comment"/>
+              </div>
+            </div>
+            <button type="submit" [disabled]="savingComment" class="btn btn-danger">Save</button>
+            <p *ngIf="!commentReceived" style="color: orangered"> {{ commentStatus }} </p>
+            <p *ngIf="commentReceived" style="color: green"> {{ commentStatus }} </p>
+          </form>
+
+          <p *ngIf="savingComment" style="color: darkred">
+            <img src="assets/lib/theme/img/loaders/default.gif" /> Saving Complaint.. Please wait..
+          </p>
+        </div>
+        <!-- END INLINE FORM SAMPLE -->
+
+      </div>
+    </div>
+
+    <div class="row" >
+      <div class="col-md-12">
+
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Products</h3>
+            <!--
+            <ul class="panel-controls">
+              <li><a href="javascript:" class="pr panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+              <li><a href="javascript:" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+            </ul>
+            -->
+          </div>
+          <div class="panel-body">
+            <form class="form-inline" [formGroup]="searchForm" (submit)="searchProduct()" role="form" novalidate>
+              <input type="text" name="searchTerm" formControlName="search" placeholder="search term"
+                     class="form-control pull-right" (keydown)="searchProduct()" />
+            </form>
+            <table datatable class="table table-striped table-border table-hover">
+              <thead>
+              <tr>
+                <th>Product Name</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let product of products" (click)="productClicked(product)">
+                <td>{{ product.item_name }}  <b>( {{ product.available_quantity }} )</b></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

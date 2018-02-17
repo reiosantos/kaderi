@@ -1,5 +1,6 @@
 export const environment = {
 	production: true,
-	// api: 'http://localhost:3000/controller.php'
-	api: 'kaderi-api/controller.php'
+	userStorageKey: 'kaderiUser',
+	api: 'http://localhost/noroot/Kaderi/kaderi-api/controller.php'
+	// api: 'kaderi-api/controller.php'
 };

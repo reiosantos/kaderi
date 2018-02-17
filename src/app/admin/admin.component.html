@@ -1,0 +1,23 @@
+<!-- START CONTENT FRAME -->
+<div class="row">
+
+  <!-- START CONTENT FRAME LEFT -->
+  <div class="col-md-2">
+    <div (click)="move('stores')" style="cursor: pointer; margin-bottom: 5px;" class="panel panel-default"><div class="panel-body"><i class="fa fa-building-o"></i> Stores/ Kiosks</div></div>
+    <div (click)="move('users')" style="cursor: pointer; margin-bottom: 5px;" class="panel panel-default"><div class="panel-body"><i class="fa fa-users"></i> Users</div></div>
+    <div (click)="move('comments')" style="cursor: pointer; margin-bottom: 5px;" class="panel panel-default"><div class="panel-body"><i class="fa fa-comments"></i> Comments</div></div>
+
+  </div>
+  <!-- END CONTENT FRAME LEFT -->
+
+  <!-- START CONTENT FRAME BODY -->
+  <div class="col-md-10">
+
+    <app-admin-stores  *ngIf="storesView" ></app-admin-stores>
+    <app-admin-users *ngIf="usersView"></app-admin-users>
+    <app-admin-comments *ngIf="commentsView"></app-admin-comments>
+
+  </div>
+  <!-- END CONTENT FRAME BODY -->
+</div>
+<!-- END CONTENT FRAME -->

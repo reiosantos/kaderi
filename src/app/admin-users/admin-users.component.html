@@ -1,0 +1,162 @@
+<div class="row" *ngIf="loading">
+  <div class="col-md-12">
+    <p style="color: green">
+      <img src="assets/lib/theme/img/loaders/default.gif" /> Saving changes to database.. Please wait..
+    </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <app-alert></app-alert>
+
+    <form class="form-horizontal" [formGroup]="addUserForm" (submit)="userSubmit()" novalidate>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title"><strong>User</strong> registration</h3>
+        </div>
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">First Name</label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                    <input [ngModel]="modalUser.first_name" type="text" class="form-control" formControlName="f_name" [class.invalid]="!addUserForm.controls.f_name.valid"/>
+                  </div>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.f_name.valid" class="invalid">First name is required</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Last Name</label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                    <input [ngModel]="modalUser.last_name" type="text" class="form-control" formControlName="l_name" [class.invalid]="!addUserForm.controls.l_name.valid" />
+                  </div>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.l_name.valid" class="invalid">Last name is required</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Contact</label>
+                <div class="col-md-9">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-phone"></span></span>
+                    <input [ngModel]="modalUser.contact" type="text" class="form-control" formControlName="contact" [class.invalid]="!addUserForm.controls.contact.valid" />
+                  </div>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.contact.valid" class="invalid">Phone number is required</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Email</label>
+                <div class="col-md-9 col-xs-12">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
+                    <input [ngModel]="modalUser.email" type="email" class="form-control" formControlName="email" [class.invalid]="!addUserForm.controls.email.valid" />
+                  </div>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.email.valid" class="invalid">Email is not valid</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Password</label>
+                <div class="col-md-9 col-xs-12">
+                  <div class="input-group">
+                    <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
+                    <input [ngModel]="modalUser.password" type="password" class="form-control" formControlName="password"
+                           [class.invalid]="!addUserForm.controls.password.valid"/>
+                  </div>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.password.valid" class="invalid">Password is required</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Store/Kiosk</label>
+                <div class="col-md-9">
+                  <select title="stores" [class.invalid]="!addUserForm.controls.store_id.valid" [ngModel]="modalUser.store_id" formControlName="store_id" class="form-control">
+                    <option value="0" selected="selected" disabled >---------------------</option>
+                    <option *ngFor="let store of stores" [ngValue]="store.id" >
+                      {{ store.store_name }}
+                    </option>
+                  </select>
+                  <span *ngIf="userSubmitted && !addUserForm.controls.store_id.valid" class="invalid">Assign a store</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="col-md-3 control-label">Admin</label>
+                <div class="col-md-9">
+                  <label class="check"><input type="checkbox" [ngModel]="modalUser.is_admin" formControlName="is_admin" [class.invalid]="!addUserForm.controls.is_admin.valid" checked="checked"/> Is Admin</label>
+                  <span class="help-block">should this user be an administrator? </span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="panel-footer">
+          <button type="reset" class="btn btn-default">Clear Form</button>
+          <button type="submit" class="btn btn-primary pull-right">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Users</h3>
+        <!--
+        <ul class="panel-controls">
+          <li><a href="javascript:void(0)" class="panel-collapse"><span class="fa fa-angle-down"></span></a></li>
+          <li><a href="javascript:void(0)" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+        </ul>
+        -->
+      </div>
+      <div class="panel-body">
+        <table datatable class="table table-striped table-border table-hover">
+          <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Date Registered</th>
+            <th>Store/Kiosk</th>
+            <th>Admin Status</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let user of userOutput">
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.contact }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.date_registered }}</td>
+            <td>{{ user.store_name }}</td>
+            <td>{{ user.is_admin }}</td>
+            <td>
+              <button (click)="editUser(user)" class="btn btn-sm btn-rounded btn-success pull-left"><i class="fa fa-edit"></i></button>
+              <button (click)="deleteUser(user)" class="btn btn-rounded btn-sm btn-danger center-block"><i class="fa fa-trash-o"></i></button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
