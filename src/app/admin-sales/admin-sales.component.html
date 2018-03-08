@@ -25,6 +25,7 @@
           <tr>
             <th style="background: darkgray">SUMMARY</th>
             <th style="background: rgba(185,70,76,0.34)">Today</th>
+            <th style="background: rgba(185,70,76,0.34)">This Month</th>
             <th style="background: rgba(185,70,76,0.34)">All To-Date</th>
           </tr>
           </thead>
@@ -32,11 +33,13 @@
           <tr>
             <td style="background: #58f079"><b>Profits: </b></td>
             <td>{{ profits_today }}</td>
+            <td>{{ profits_monthly }}</td>
             <td>{{ profits_ever }}</td>
           </tr>
           <tr>
             <td style="background: #58f079"><b>Losses: </b></td>
             <td>{{ losses_today }}</td>
+            <td>{{ losses_monthly }}</td>
             <td>{{ losses_ever }}</td>
           </tr>
           </tbody>

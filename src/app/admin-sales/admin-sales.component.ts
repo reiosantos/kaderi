@@ -21,7 +21,9 @@ export class AdminSalesComponent implements OnInit, OnChanges {
 	today: any;
 
 	profits_today = '0 Ugx';
+	profits_monthly = '0 Ugx';
 	losses_today = '0 Ugx';
+	losses_monthly = '0 Ugx';
 	profits_ever = '0 Ugx';
 	losses_ever = '0 Ugx';
 
@@ -57,13 +59,22 @@ export class AdminSalesComponent implements OnInit, OnChanges {
 	}
 
 	private calculate_sales() {
-		let pr_today = 0, ls_today = 0, pr_ever = 0, ls_ever = 0;
+		const da = new Date();
+		let pr_today = 0, ls_today = 0, pr_ever = 0, ls_ever = 0, pr_monthly = 0, ls_monthly = 0;
 
 		for ( let i = 0; i < this.salesKeys.length; i++) {
 			const key = this.salesKeys[i];
 			for ( let j = 0; j < this.sales[key].length; j ++) {
 				const sale = this.sales[key][j];
 				sale.profit = parseFloat(sale.profit);
+				const tm = new Date(key);
+				if ((tm.getMonth() + 1) === (da.getMonth() + 1)){
+					if (sale.profit >= 0){
+						pr_monthly += sale.profit;
+					}else{
+						ls_monthly += sale.profit;
+					}
+				}
 				if (key === this.today){
 					if (sale.profit >= 0){
 						pr_today += sale.profit;
@@ -79,8 +90,10 @@ export class AdminSalesComponent implements OnInit, OnChanges {
 			}
 		}
 		this.profits_today = pr_today + ' Ugx';
+		this.profits_monthly = pr_monthly + ' Ugx';
 		this.profits_ever = pr_ever + ' Ugx';
 		this.losses_today = (ls_today * -1) + ' Ugx';
+		this.losses_today = (ls_monthly * -1) + ' Ugx';
 		this.losses_ever = (ls_ever * -1) + ' Ugx';
 	}
 

@@ -221,6 +221,16 @@ class Users
      * @return int|string
      */
 	private function generateToken() {
-		return mb_convert_encoding(rand(100000, 900000),'UTF-8', 'UTF-8');
+        try {
+            return bin2hex(random_bytes(32)); //for php 7+
+        } catch (Exception $e) {
+            // for php 5.3+
+            if (function_exists('mcrypt_create_iv')){
+                return bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
+            }else{
+                return bin2hex(openssl_random_pseudo_bytes(32));
+            }
+        }
+		//return mb_convert_encoding(rand(100000, 900000),'UTF-8', 'UTF-8');
 	}
 }
