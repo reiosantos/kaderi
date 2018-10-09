@@ -1,4 +1,4 @@
-  CREATE DATABASE `kaderi`;
+CREATE DATABASE if not exists `kaderi`;
 
 USE `kaderi`;
 
