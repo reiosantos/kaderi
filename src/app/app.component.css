@@ -1,0 +1,11 @@
+ul.x-navigation.x-navigation-horizontal{
+  height: auto;
+  padding: .5em;
+}
+
+ul.x-navigation.x-navigation-horizontal  li,
+ul.x-navigation.x-navigation-horizontal li a {
+  height: 100%;
+  white-space: nowrap;
+  border-radius: .2em;
+}

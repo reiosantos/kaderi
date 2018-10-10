@@ -12,7 +12,7 @@ import {environment} from '../environments/environment.prod';
 })
 export class AppComponent {
 
-	title = 'Kaderi Sales System';
+	title = 'Debbie phones';
 	isLoggedin: boolean;
 	user: User = null;
 
